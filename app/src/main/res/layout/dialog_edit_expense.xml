@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/nothing_grey_dark">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Amount"
+        app:boxStrokeColor="@color/nothing_red"
+        app:hintTextColor="@color/nothing_grey_light">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_edit_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="@color/white"
+             />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Description"
+        app:boxStrokeColor="@color/nothing_red"
+        app:hintTextColor="@color/nothing_grey_light">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_edit_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:textColor="@color/white"
+             />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
