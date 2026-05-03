@@ -29,8 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="Note"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                 />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_item_amount"
@@ -38,8 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="₹0.00"
                 android:textColor="@color/nothing_red"
-                android:textSize="14sp"
-                 />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ImageButton

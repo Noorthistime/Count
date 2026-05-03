@@ -78,6 +78,10 @@ class MainActivity : AppCompatActivity() {
             val intent = android.content.Intent(this, GiveTakeActivity::class.java)
             startActivity(intent)
         }
+        binding.btnSync.setOnClickListener {
+            val intent = android.content.Intent(this, SyncActivity::class.java)
+            startActivity(intent)
+        }
         binding.btnAdd.setOnClickListener { addExpense() }
     }
 

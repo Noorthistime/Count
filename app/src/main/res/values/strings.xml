@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Test_Expense_Tracker</string>
+    <!-- Placeholder for Google Sign-In. Replace with real value from Firebase Console if needed,
+         though the google-services plugin usually handles this. -->
+    <string name="default_web_client_id" translatable="false">1098705219069-hfqa6l7o9satqc4s62mcdr3inhtahlfj.apps.googleusercontent.com</string>
 </resources>

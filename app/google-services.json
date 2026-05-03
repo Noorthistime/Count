@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1098705219069",
+    "project_id": "testexpensetracker-a9640d7b",
+    "storage_bucket": "testexpensetracker-a9640d7b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098705219069:android:f66d0f8e054aa473493d94",
+        "android_client_info": {
+          "package_name": "com.example.test_expense_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBez7jGBCgjqtm5OiVTEpnZb5mn2Hs9ywc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

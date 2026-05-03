@@ -27,7 +27,6 @@
             android:text="JANUARY 24, 2024"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:fontFamily="@font/normal_font"
             android:textAllCaps="true" />
 
         <ImageButton
@@ -47,7 +46,7 @@
             android:src="@android:drawable/ic_menu_sort_by_size"
             android:layout_marginStart="8dp"
             android:contentDescription="Monthly Summary"
-            app:tint="@color/nothing_orange" />
+            app:tint="@color/nothing_red" />
 
         <ImageButton
             android:id="@+id/btn_give_take"
@@ -57,6 +56,16 @@
             android:src="@drawable/ic_equal"
             android:layout_marginStart="8dp"
             android:contentDescription="Give / Take"
+            app:tint="@color/nothing_red" />
+
+        <ImageButton
+            android:id="@+id/btn_sync"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/stat_notify_sync"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Sync with Cloud"
             app:tint="@color/nothing_red" />
     </LinearLayout>
 
@@ -86,8 +95,7 @@
             android:layout_height="wrap_content"
             android:text="₹0.00"
             android:textColor="@color/white"
-            android:textSize="48sp"
-            android:fontFamily="@font/normal_font" />
+            android:textSize="48sp" />
     </LinearLayout>
 
     <!-- Entries Section -->

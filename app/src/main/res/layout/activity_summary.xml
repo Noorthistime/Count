@@ -36,7 +36,6 @@
             android:text="ANALYTICS"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:fontFamily="@font/normal_font"
             android:textAllCaps="true"
             android:layout_marginStart="8dp" />
     </LinearLayout>
@@ -55,22 +54,18 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Daily Breakdown (Moved to top) -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DAILY BREAKDOWN (CURRENT MONTH)"
-                android:textColor="@color/nothing_grey_light"
-                android:textSize="12sp"
-                android:layout_marginBottom="16dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_daily_expenses"
+            <!-- Daily Breakdown Button (Moved to top) -->
+            <Button
+                android:id="@+id/btn_daily_breakdown"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
+                android:layout_height="56dp"
+                android:text="DAILY BREAKDOWN (CURRENT MONTH)"
+                android:backgroundTint="@color/nothing_grey_dark"
+                app:strokeColor="@color/nothing_red"
+                app:strokeWidth="1dp"
+                android:textColor="@color/white"
                 android:layout_marginBottom="24dp"
-                tools:listitem="@layout/item_daily_expense" />
+                style="@style/Widget.Material3.Button.OutlinedButton" />
 
             <!-- Weekly Graph Card -->
             <com.google.android.material.card.MaterialCardView
@@ -103,8 +98,7 @@
                             android:layout_weight="1"
                             android:text="WEEKLY OVERVIEW"
                             android:textColor="@color/nothing_grey_light"
-                            android:textSize="12sp"
-                            android:fontFamily="@font/normal_font" />
+                            android:textSize="12sp" />
 
                         <ImageButton
                             android:id="@+id/btn_prev_week"
@@ -154,7 +148,6 @@
                         android:text="MONTHLY FLOW (CURRENT YEAR)"
                         android:textColor="@color/nothing_grey_light"
                         android:textSize="12sp"
-                        android:fontFamily="@font/normal_font"
                         android:layout_marginBottom="12dp" />
 
                     <com.github.mikephil.charting.charts.BarChart
@@ -187,7 +180,6 @@
                         android:text="5-YEAR TREND"
                         android:textColor="@color/nothing_grey_light"
                         android:textSize="12sp"
-                        android:fontFamily="@font/normal_font"
                         android:layout_marginBottom="12dp" />
 
                     <com.github.mikephil.charting.charts.LineChart

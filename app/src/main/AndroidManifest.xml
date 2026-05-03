@@ -32,6 +32,43 @@
             android:name=".GiveTakeActivity"
             android:exported="false"
             android:theme="@style/Theme.Test_Expense_Tracker" />
+        <activity
+            android:name=".SyncActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Test_Expense_Tracker" />
+        <activity
+            android:name=".QuickAddActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Test_Expense_Tracker.Dialog"
+            android:taskAffinity=""
+            android:excludeFromRecents="true" />
+        <activity
+            android:name=".DailyBreakdownActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Test_Expense_Tracker" />
+
+        <!-- Give/Take Widget -->
+        <receiver android:name=".GiveTakeWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/give_take_widget_info" />
+        </receiver>
+
+        <!-- Quick Add Expense Widget -->
+        <receiver android:name=".AddExpenseWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/add_expense_widget_info" />
+        </receiver>
+
     </application>
 
 </manifest>

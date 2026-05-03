@@ -1,6 +1,7 @@
 package com.example.test_expense_tracker
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -40,6 +41,20 @@ class GiveTakeActivity : AppCompatActivity() {
 
         setupViewPager()
         setupUI()
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val type = intent?.getStringExtra("EXTRA_TYPE")
+        if (type != null) {
+            val position = if (type == "GIVE") 0 else 1
+            binding.viewPager.setCurrentItem(position, false)
+        }
     }
 
     private fun setupViewPager() {
