@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/nothing_red</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/nothing_orange</item>
+        <item name="colorSecondary">@color/nothing_red</item>
         <item name="colorOnSecondary">@color/white</item>
 
         <!-- Background/Surface colors -->
@@ -29,5 +29,26 @@
         <item name="android:fontFamily">@font/normal_font</item>
         <item name="fontFamily">@font/normal_font</item>
         <item name="android:windowBackground">@color/nothing_grey_dark</item>
+    </style>
+
+    <!-- Theme Variants -->
+    <style name="Theme.Test_Expense_Tracker.Red" parent="Theme.Test_Expense_Tracker">
+        <item name="colorPrimary">@color/theme_nothing_red</item>
+        <item name="colorSecondary">@color/theme_nothing_red</item>
+    </style>
+
+    <style name="Theme.Test_Expense_Tracker.Blue" parent="Theme.Test_Expense_Tracker">
+        <item name="colorPrimary">@color/theme_ethereal_blue</item>
+        <item name="colorSecondary">@color/theme_ethereal_blue</item>
+    </style>
+
+    <style name="Theme.Test_Expense_Tracker.Green" parent="Theme.Test_Expense_Tracker">
+        <item name="colorPrimary">@color/theme_contrast_green</item>
+        <item name="colorSecondary">@color/theme_contrast_green</item>
+    </style>
+
+    <style name="Theme.Test_Expense_Tracker.Grey" parent="Theme.Test_Expense_Tracker">
+        <item name="colorPrimary">@color/theme_balanced_grey</item>
+        <item name="colorSecondary">@color/theme_balanced_grey</item>
     </style>
 </resources>

@@ -24,8 +24,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="@color/nothing_red"
+            android:src="@drawable/ic_back"
+            app:tint="?attr/colorPrimary"
             android:contentDescription="Back" />
 
         <TextView
@@ -61,7 +61,7 @@
                 android:layout_height="56dp"
                 android:text="DAILY BREAKDOWN (CURRENT MONTH)"
                 android:backgroundTint="@color/nothing_grey_dark"
-                app:strokeColor="@color/nothing_red"
+                app:strokeColor="?attr/colorPrimary"
                 app:strokeWidth="1dp"
                 android:textColor="@color/white"
                 android:layout_marginBottom="24dp"
@@ -105,16 +105,16 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@android:drawable/ic_media_previous"
-                            app:tint="@color/nothing_red" />
+                            android:src="@drawable/ic_prev"
+                            app:tint="?attr/colorPrimary" />
 
                         <ImageButton
                             android:id="@+id/btn_next_week"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@android:drawable/ic_media_next"
-                            app:tint="@color/nothing_red" />
+                            android:src="@drawable/ic_next"
+                            app:tint="?attr/colorPrimary" />
                     </LinearLayout>
 
                     <com.github.mikephil.charting.charts.BarChart

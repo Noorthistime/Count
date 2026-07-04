@@ -2,6 +2,7 @@ package com.example.test_expense_tracker
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.test_expense_tracker.data.ExpenseDao
@@ -22,6 +23,13 @@ class QuickAddActivity : AppCompatActivity() {
         binding = ActivityQuickAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Handle back button to go to MainActivity instead of exiting
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateToMain()
+            }
+        })
+
         // Make it look like a dialog
         window.setLayout(
             (resources.displayMetrics.widthPixels * 0.9).toInt(),
@@ -33,6 +41,13 @@ class QuickAddActivity : AppCompatActivity() {
         binding.btnQuickSave.setOnClickListener {
             saveExpense()
         }
+    }
+
+    private fun navigateToMain() {
+        val intent = android.content.Intent(this, MainActivity::class.java)
+        intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        finish()
     }
 
     private fun saveExpense() {
@@ -56,7 +71,7 @@ class QuickAddActivity : AppCompatActivity() {
         lifecycleScope.launch {
             expenseDao.insertExpense(entry)
             Toast.makeText(this@QuickAddActivity, "Expense Saved", Toast.LENGTH_SHORT).show()
-            finish()
+            navigateToMain()
         }
     }
 }

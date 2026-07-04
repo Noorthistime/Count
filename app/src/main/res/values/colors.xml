@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="nothing_red">#FF0000</color>
-    <color name="nothing_grey_dark">#1A1A1A</color>
-    <color name="nothing_grey_medium">#333333</color>
-    <color name="nothing_grey_light">#808080</color>
+    <color name="black">#121110</color>
+    <color name="white">#FFFBFA</color>
+    <color name="nothing_red">#E64A19</color>
+    <color name="nothing_red_light">#4DE64A19</color>
+    <color name="nothing_grey_dark">#242220</color>
+    <color name="nothing_grey_medium">#423E3B</color>
+    <color name="nothing_grey_light">#968F8A</color>
     <color name="nothing_orange">#FF5722</color>
     <color name="nothing_orange_light">#4DFF5722</color>
-    <color name="icon_background">#000000</color>
+    <color name="icon_background">#121110</color>
+
+    <!-- Theme Selection Colors -->
+    <color name="theme_nothing_red">#FF0031</color>
+    <color name="theme_ethereal_blue">#42A5F5</color>
+    <color name="theme_contrast_green">#2E7D32</color>
+    <color name="theme_balanced_grey">#757575</color>
 </resources>

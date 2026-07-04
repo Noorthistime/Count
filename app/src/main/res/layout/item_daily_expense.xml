@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="₹0.00"
-            android:textColor="@color/nothing_red"
+            android:textColor="?attr/colorPrimary"
             android:textSize="16sp" />
 
     </LinearLayout>

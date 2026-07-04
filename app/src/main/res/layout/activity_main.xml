@@ -13,7 +13,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="16dp"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,52 +22,77 @@
 
         <TextView
             android:id="@+id/tv_date"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="JANUARY 24, 2024"
+            android:text="JULY 04, 2026"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textAllCaps="true" />
+            android:textSize="20sp"
+            android:textAllCaps="true"
+            android:maxLines="1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btn_palette"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="7dp"
+            android:scaleType="fitCenter"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_palette"
+            android:contentDescription="Change Theme Color"
+            app:tint="?attr/colorPrimary" />
 
         <ImageButton
             android:id="@+id/btn_calendar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="7dp"
+            android:scaleType="fitCenter"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_my_calendar"
+            android:src="@drawable/ic_calendar"
             android:contentDescription="Select Date"
-            app:tint="@color/nothing_red" />
+            app:tint="?attr/colorPrimary"
+            android:layout_marginStart="2dp" />
 
         <ImageButton
             android:id="@+id/btn_summary"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="7dp"
+            android:scaleType="fitCenter"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_summary"
+            android:layout_marginStart="2dp"
             android:contentDescription="Monthly Summary"
-            app:tint="@color/nothing_red" />
+            app:tint="?attr/colorPrimary" />
 
         <ImageButton
             android:id="@+id/btn_give_take"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="7dp"
+            android:scaleType="fitCenter"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_equal"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="2dp"
             android:contentDescription="Give / Take"
-            app:tint="@color/nothing_red" />
+            app:tint="?attr/colorPrimary" />
 
         <ImageButton
             android:id="@+id/btn_sync"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="7dp"
+            android:scaleType="fitCenter"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/stat_notify_sync"
-            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_sync"
+            android:layout_marginStart="2dp"
             android:contentDescription="Sync with Cloud"
-            app:tint="@color/nothing_red" />
+            app:tint="?attr/colorPrimary" />
     </LinearLayout>
 
     <!-- Daily Total Display -->
@@ -138,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Amount"
-                app:boxStrokeColor="@color/nothing_red"
+                app:boxStrokeColor="?attr/colorPrimary"
                 app:boxStrokeWidth="1dp"
                 app:hintTextColor="@color/nothing_grey_light">
 
@@ -156,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="Description"
-                app:boxStrokeColor="@color/nothing_red"
+                app:boxStrokeColor="?attr/colorPrimary"
                 app:boxStrokeWidth="1dp"
                 app:hintTextColor="@color/nothing_grey_light">
 
@@ -173,7 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/nothing_red"
+                android:backgroundTint="?attr/colorPrimary"
                 android:text="ADD EXPENSE"
                 android:textColor="@color/white"
                 app:cornerRadius="12dp" />

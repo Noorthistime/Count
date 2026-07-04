@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     private val displayFormatter = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val theme = ThemeStorage.getTheme(this)
+        setTheme(ThemeStorage.getThemeResource(theme))
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         enableEdgeToEdge()
@@ -41,16 +44,44 @@ class MainActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                kotlin.math.max(systemBars.bottom, ime.bottom)
+            )
             insets
         }
 
+        setupBackNavigation()
         expenseDao = ExpenseDatabase.getDatabase(this).expenseDao()
 
         setupRecyclerView()
         setupUI()
         loadHighlightedDates()
         loadDataForSelectedDate()
+    }
+
+    private fun setupBackNavigation() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.etAmount.hasFocus() || binding.etDescription.hasFocus()) {
+                    binding.etAmount.clearFocus()
+                    binding.etDescription.clearFocus()
+                } else {
+                    val today = Calendar.getInstance()
+                    if (dateFormatter.format(selectedDate.time) != dateFormatter.format(today.time)) {
+                        selectedDate = today
+                        loadDataForSelectedDate()
+                    } else {
+                        isEnabled = false
+                        onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+        })
     }
 
     private fun loadHighlightedDates() {
@@ -66,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         )
         binding.rvEntries.layoutManager = LinearLayoutManager(this)
         binding.rvEntries.adapter = adapter
+        binding.rvEntries.setHasFixedSize(true)
     }
 
     private fun setupUI() {
@@ -82,6 +114,7 @@ class MainActivity : AppCompatActivity() {
             val intent = android.content.Intent(this, SyncActivity::class.java)
             startActivity(intent)
         }
+        binding.btnPalette.setOnClickListener { showThemeSelectionDialog() }
         binding.btnAdd.setOnClickListener { addExpense() }
     }
 
@@ -99,18 +132,23 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         datePicker.addOnPositiveButtonClickListener { selection ->
+            handleDateSelection(selection)
+        }
+        
+        datePicker.show(supportFragmentManager, "DATE_PICKER")
+    }
+
+    private fun handleDateSelection(selection: Long?) {
+        selection?.let {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-            calendar.timeInMillis = selection
+            calendar.timeInMillis = it
             
-            // Adjust to local timezone to avoid off-by-one errors
             val localCalendar = Calendar.getInstance()
             localCalendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
             
             selectedDate = localCalendar
             loadDataForSelectedDate()
         }
-        
-        datePicker.show(supportFragmentManager, "DATE_PICKER")
     }
 
     private fun loadDataForSelectedDate() {
@@ -194,6 +232,27 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Cancel", null)
             .show()
     }
+
+    private fun showThemeSelectionDialog() {
+        val themes = arrayOf("Default Orange", "Nothing Red", "Ethereal Blue", "Contrast Green", "Balanced Grey")
+        val themeKeys = arrayOf(ThemeStorage.THEME_ORANGE, ThemeStorage.THEME_RED, ThemeStorage.THEME_BLUE, ThemeStorage.THEME_GREEN, ThemeStorage.THEME_GREY)
+        
+        val currentTheme = ThemeStorage.getTheme(this)
+        val checkedItem = themeKeys.indexOf(currentTheme)
+
+        AlertDialog.Builder(this)
+            .setTitle("Select App Color")
+            .setSingleChoiceItems(themes, checkedItem) { dialog, which ->
+                val selectedTheme = themeKeys[which]
+                if (selectedTheme != currentTheme) {
+                    ThemeStorage.saveTheme(this, selectedTheme)
+                    recreate()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
 }
 
 
@@ -215,10 +274,23 @@ class ExpenseDayDecorator(private val highlightedDates: Set<String>) : com.googl
         valid: Boolean,
         selected: Boolean
     ): android.content.res.ColorStateList? {
+        val today = Calendar.getInstance()
+        val isToday = today.get(Calendar.YEAR) == year &&
+                today.get(Calendar.MONTH) == month &&
+                today.get(Calendar.DAY_OF_MONTH) == day
+
         val dateStr = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, day)
-        return if (highlightedDates.contains(dateStr)) {
-            android.content.res.ColorStateList.valueOf(context.getColor(R.color.nothing_orange_light))
-        } else null
+
+        return when {
+            isToday -> android.content.res.ColorStateList.valueOf(context.getColor(R.color.nothing_grey_medium))
+            highlightedDates.contains(dateStr) -> {
+                val color = ThemeStorage.getColorPrimary(context)
+                // Apply 30% alpha (0x4D)
+                val alphaColor = (color and 0x00FFFFFF) or 0x4D000000
+                android.content.res.ColorStateList.valueOf(alphaColor)
+            }
+            else -> null
+        }
     }
 
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {

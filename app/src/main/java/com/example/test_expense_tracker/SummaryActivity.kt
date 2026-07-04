@@ -25,6 +25,8 @@ class SummaryActivity : AppCompatActivity() {
     private var weeklyCalendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val theme = ThemeStorage.getTheme(this)
+        setTheme(ThemeStorage.getThemeResource(theme))
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivitySummaryBinding.inflate(layoutInflater)
@@ -32,7 +34,13 @@ class SummaryActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                kotlin.math.max(systemBars.bottom, ime.bottom)
+            )
             insets
         }
 
@@ -98,34 +106,42 @@ class SummaryActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val dayFormat = SimpleDateFormat("EEE", Locale.getDefault())
         val dateFormat = SimpleDateFormat("dd", Locale.getDefault())
+        
         val cal = weeklyCalendar.clone() as Calendar
         cal.set(Calendar.DAY_OF_WEEK, cal.firstDayOfWeek)
+        val startDate = sdf.format(cal.time)
+        
+        val calEnd = cal.clone() as Calendar
+        calEnd.add(Calendar.DATE, 6)
+        val endDate = sdf.format(calEnd.time)
         
         val weekEntries = mutableListOf<BarEntry>()
         val labels = mutableListOf<String>()
         
         lifecycleScope.launch {
+            val allEntries = expenseDao.getExpensesInRange(startDate, endDate)
+            val dateTotals = allEntries.groupBy { it.date }
+                .mapValues { entry -> entry.value.sumOf { it.amount } }
+
+            val tempCal = weeklyCalendar.clone() as Calendar
+            tempCal.set(Calendar.DAY_OF_WEEK, tempCal.firstDayOfWeek)
+            
             for (i in 0..6) {
-                val dateStr = sdf.format(cal.time)
-                val entries = expenseDao.getExpensesByDate(dateStr)
-                val total = entries.sumOf { it.amount }
+                val dateStr = sdf.format(tempCal.time)
+                val total = dateTotals[dateStr] ?: 0.0
                 weekEntries.add(BarEntry(i.toFloat(), total.toFloat()))
-                
-                // Brief Labels like "Mon-01" in a single line
-                labels.add("${dayFormat.format(cal.time)}-${dateFormat.format(cal.time)}")
-                
-                cal.add(Calendar.DATE, 1)
+                labels.add("${dayFormat.format(tempCal.time)}-${dateFormat.format(tempCal.time)}")
+                tempCal.add(Calendar.DATE, 1)
             }
             
             val dataSet = BarDataSet(weekEntries, "").apply {
-                color = Color.parseColor("#FF0000")
+                color = ThemeStorage.getColorPrimary(this@SummaryActivity)
                 valueTextColor = Color.WHITE
                 valueTextSize = 10f
             }
             binding.weeklyBarChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             binding.weeklyBarChart.xAxis.granularity = 1f
             binding.weeklyBarChart.xAxis.labelCount = 7
-            binding.weeklyBarChart.xAxis.labelRotationAngle = 0f
             binding.weeklyBarChart.data = BarData(dataSet)
             binding.weeklyBarChart.invalidate()
         }
@@ -141,9 +157,8 @@ class SummaryActivity : AppCompatActivity() {
             
             allYearEntries.forEach {
                 try {
-                    val cal = Calendar.getInstance()
-                    cal.time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(it.date)!!
-                    val month = cal.get(Calendar.MONTH)
+                    // Optimized: Use substring instead of parsing the whole date
+                    val month = it.date.substring(5, 7).toInt() - 1
                     monthlyTotals[month] = (monthlyTotals[month] ?: 0.0) + it.amount
                 } catch (e: Exception) {}
             }
@@ -155,7 +170,7 @@ class SummaryActivity : AppCompatActivity() {
             }
             
             val dataSet = BarDataSet(barEntries, "").apply {
-                color = Color.parseColor("#FF0000")
+                color = ThemeStorage.getColorPrimary(this@SummaryActivity)
                 valueTextColor = Color.WHITE
             }
             binding.monthlySplitChart.xAxis.valueFormatter = IndexAxisValueFormatter(months)
@@ -190,7 +205,7 @@ class SummaryActivity : AppCompatActivity() {
             }
             
             val dataSet = LineDataSet(entries, "5-Year trend").apply {
-                color = Color.parseColor("#FF5722")
+                color = ThemeStorage.getColorPrimary(this@SummaryActivity)
                 setCircleColor(Color.WHITE)
                 valueTextColor = Color.WHITE
                 lineWidth = 2f

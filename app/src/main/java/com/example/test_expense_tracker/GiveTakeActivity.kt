@@ -26,6 +26,8 @@ class GiveTakeActivity : AppCompatActivity() {
     private lateinit var expenseDao: ExpenseDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val theme = ThemeStorage.getTheme(this)
+        setTheme(ThemeStorage.getThemeResource(theme))
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityGiveTakeBinding.inflate(layoutInflater)
@@ -33,7 +35,13 @@ class GiveTakeActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                kotlin.math.max(systemBars.bottom, ime.bottom)
+            )
             insets
         }
 

@@ -62,16 +62,16 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_edit"
-            app:tint="@color/nothing_orange" />
+            android:src="@drawable/ic_edit"
+            app:tint="?attr/colorPrimary" />
 
         <ImageButton
             android:id="@+id/btn_delete"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_delete"
-            app:tint="@color/nothing_red" />
+            android:src="@drawable/ic_delete"
+            app:tint="?attr/colorPrimary" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

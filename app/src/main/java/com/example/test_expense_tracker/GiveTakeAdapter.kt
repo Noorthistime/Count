@@ -2,6 +2,7 @@ package com.example.test_expense_tracker
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test_expense_tracker.data.GiveTakeEntry
 import com.example.test_expense_tracker.databinding.ItemGiveTakeBinding
@@ -34,7 +35,22 @@ class GiveTakeAdapter(
     override fun getItemCount() = entries.size
 
     fun updateData(newEntries: List<GiveTakeEntry>) {
+        val diffResult = DiffUtil.calculateDiff(GiveTakeDiffCallback(this.entries, newEntries))
         this.entries = newEntries
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    class GiveTakeDiffCallback(
+        private val oldList: List<GiveTakeEntry>,
+        private val newList: List<GiveTakeEntry>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = oldList.size
+        override fun getNewListSize(): Int = newList.size
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].id == newList[newItemPosition].id
+        }
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
     }
 }

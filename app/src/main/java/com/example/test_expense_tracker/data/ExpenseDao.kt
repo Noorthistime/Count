@@ -26,6 +26,9 @@ interface ExpenseDao {
     @Query("SELECT * FROM expense_entries ORDER BY date ASC")
     suspend fun getAllExpenses(): List<ExpenseEntry>
 
+    @Query("SELECT * FROM expense_entries WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC")
+    suspend fun getExpensesInRange(startDate: String, endDate: String): List<ExpenseEntry>
+
     @Query("SELECT date FROM expense_entries GROUP BY date HAVING SUM(amount) > 0")
     suspend fun getDatesWithExpenses(): List<String>
 

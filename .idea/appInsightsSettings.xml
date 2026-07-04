@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.test_expense_tracker" />
-                  <option name="mobileSdkAppId" value="1:1234567890:android:abcdef123456" />
-                  <option name="projectId" value="test-expense-tracker-dummy" />
-                  <option name="projectNumber" value="1234567890" />
+                  <option name="mobileSdkAppId" value="1:1098705219069:android:f66d0f8e054aa473493d94" />
+                  <option name="projectId" value="testexpensetracker-a9640d7b" />
+                  <option name="projectNumber" value="1098705219069" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

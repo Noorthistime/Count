@@ -24,8 +24,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="@color/nothing_red"
+            android:src="@drawable/ic_back"
+            app:tint="?attr/colorPrimary"
             android:contentDescription="Back" />
 
         <TextView
@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         app:tabTextColor="@color/nothing_grey_light"
-        app:tabSelectedTextColor="@color/nothing_red"
-        app:tabIndicatorColor="@color/nothing_red"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabIndicatorColor="?attr/colorPrimary"
         app:layout_constraintTop_toBottomOf="@id/header">
 
         <com.google.android.material.tabs.TabItem
@@ -74,8 +74,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/nothing_red"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="?attr/colorPrimary"
         app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

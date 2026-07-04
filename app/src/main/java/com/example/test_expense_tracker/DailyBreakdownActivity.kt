@@ -20,6 +20,8 @@ class DailyBreakdownActivity : AppCompatActivity() {
     private lateinit var expenseDao: ExpenseDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val theme = ThemeStorage.getTheme(this)
+        setTheme(ThemeStorage.getThemeResource(theme))
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityDailyBreakdownBinding.inflate(layoutInflater)
@@ -27,7 +29,13 @@ class DailyBreakdownActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                kotlin.math.max(systemBars.bottom, ime.bottom)
+            )
             insets
         }
 
@@ -54,6 +62,7 @@ class DailyBreakdownActivity : AppCompatActivity() {
             
             binding.rvDailyExpenses.layoutManager = LinearLayoutManager(this@DailyBreakdownActivity)
             binding.rvDailyExpenses.adapter = DailyTotalAdapter(dailyTotals)
+            binding.rvDailyExpenses.setHasFixedSize(true)
         }
     }
 }

@@ -15,6 +15,7 @@ import com.example.test_expense_tracker.databinding.ActivitySyncBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
@@ -24,20 +25,36 @@ class SyncActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySyncBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var syncManager: FirebaseSyncManager
+    private lateinit var signInClient: com.google.android.gms.auth.api.signin.GoogleSignInClient
 
     private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)!!
-                firebaseAuthWithGoogle(account.idToken!!)
+                val idToken = account.idToken
+                if (idToken != null) {
+                    firebaseAuthWithGoogle(idToken)
+                } else {
+                    Toast.makeText(this, "Google token is null. Verify Firebase configuration.", Toast.LENGTH_LONG).show()
+                }
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                val errorMsg = when (e.statusCode) {
+                    10 -> "Developer Error: Check SHA-1 and Client ID in Firebase"
+                    7 -> "Network Error: Check your connection"
+                    12500 -> "Sign-In Failed: Code 12500 (usually SHA-1 mismatch)"
+                    else -> "Google Error: ${e.statusCode}"
+                }
+                Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
             }
+        } else if (result.resultCode != RESULT_CANCELED) {
+            Toast.makeText(this, "Sign-in interrupted (Code: ${result.resultCode})", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val theme = ThemeStorage.getTheme(this)
+        setTheme(ThemeStorage.getThemeResource(theme))
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivitySyncBinding.inflate(layoutInflater)
@@ -45,13 +62,25 @@ class SyncActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                kotlin.math.max(systemBars.bottom, ime.bottom)
+            )
             insets
         }
 
         auth = FirebaseAuth.getInstance()
         val dao = ExpenseDatabase.getDatabase(this).expenseDao()
         syncManager = FirebaseSyncManager(dao)
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        signInClient = GoogleSignIn.getClient(this, gso)
 
         setupUI()
         updateUI(auth.currentUser != null)
@@ -61,16 +90,7 @@ class SyncActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener { finish() }
 
         binding.btnGoogleSignin.setOnClickListener {
-            try {
-                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build()
-                val signInClient = GoogleSignIn.getClient(this, gso)
-                signInLauncher.launch(signInClient.signInIntent)
-            } catch (e: Exception) {
-                Toast.makeText(this, "Sign-in initialization failed", Toast.LENGTH_SHORT).show()
-            }
+            signInLauncher.launch(signInClient.signInIntent)
         }
 
         binding.btnSyncNow.setOnClickListener {
@@ -79,8 +99,9 @@ class SyncActivity : AppCompatActivity() {
 
         binding.btnSignout.setOnClickListener {
             auth.signOut()
-            GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
-            updateUI(false)
+            signInClient.signOut().addOnCompleteListener {
+                updateUI(false)
+            }
         }
     }
 
@@ -90,12 +111,28 @@ class SyncActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     updateUI(true)
-                    Toast.makeText(this, "Signed in successfully", Toast.LENGTH_SHORT).show()
+                    showSuccessDashboard()
                 } else {
                     val error = task.exception?.message ?: "Unknown error"
                     Toast.makeText(this, "Firebase Auth Failed: $error", Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    private fun showSuccessDashboard() {
+        val user = auth.currentUser
+        val name = user?.displayName ?: "User"
+        val email = user?.email ?: ""
+        
+        val message = "Sign-in Successful\nAccount: $email"
+        
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction("DISMISS") { }
+            .setActionTextColor(ThemeStorage.getColorPrimary(this))
+            .setBackgroundTint(getColor(R.color.nothing_grey_dark))
+            .setTextColor(getColor(R.color.white))
+            .setAnchorView(binding.btnSyncNow)
+            .show()
     }
 
     private fun updateUI(isSignedIn: Boolean) {

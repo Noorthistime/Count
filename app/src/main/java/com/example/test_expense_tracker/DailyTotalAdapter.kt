@@ -10,6 +10,11 @@ import java.util.*
 class DailyTotalAdapter(private val dailyTotals: List<SummaryActivity.DailyTotal>) :
     RecyclerView.Adapter<DailyTotalAdapter.ViewHolder>() {
 
+    companion object {
+        private val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        private val outputFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
+    }
+
     class ViewHolder(val binding: ItemDailyExpenseBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -19,8 +24,6 @@ class DailyTotalAdapter(private val dailyTotals: List<SummaryActivity.DailyTotal
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dailyTotals[position]
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
         
         try {
             val date = inputFormat.parse(item.date)
