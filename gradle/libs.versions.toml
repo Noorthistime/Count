@@ -18,10 +18,10 @@ jetbrainsKotlinPluginSerialization = "2.2.21"
 kotlinxSerializationCore = "1.9.0"
 navigation3Ui = "1.0.1"
 navigation3Runtime = "1.0.1"
-adaptive = "1.3.+"
-adaptiveLayout = "1.3.+"
-adaptiveNavigation3 = "1.3.+"
-lifecycleViewmodelNavigation3 = "2.11.+"
+adaptive = "1.2.0"
+adaptiveLayout = "1.2.0"
+adaptiveNavigation3 = "1.2.0"
+lifecycleViewmodelNavigation3 = "2.11.0"
 roomRuntime = "2.7.0"
 roomKtx = "2.7.0"
 roomCompiler = "2.7.0"
@@ -115,6 +115,7 @@ play-services-auth = { group = "com.google.android.gms", name = "play-services-a
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "googleDevtoolsKsp" }
 jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "jetbrainsKotlinPluginSerialization" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

@@ -234,14 +234,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showThemeSelectionDialog() {
-        val themes = arrayOf("Default Orange", "Nothing Red", "Ethereal Blue", "Contrast Green", "Balanced Grey")
+        val themes = arrayOf("Warmer Orange", "Nothing Red", "Ethereal Blue", "Forest Green", "Balanced Grey")
         val themeKeys = arrayOf(ThemeStorage.THEME_ORANGE, ThemeStorage.THEME_RED, ThemeStorage.THEME_BLUE, ThemeStorage.THEME_GREEN, ThemeStorage.THEME_GREY)
         
         val currentTheme = ThemeStorage.getTheme(this)
         val checkedItem = themeKeys.indexOf(currentTheme)
 
         AlertDialog.Builder(this)
-            .setTitle("Select App Color")
+            .setTitle("Change the Accent of App")
             .setSingleChoiceItems(themes, checkedItem) { dialog, which ->
                 val selectedTheme = themeKeys[which]
                 if (selectedTheme != currentTheme) {
