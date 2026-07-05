@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/nothing_grey_dark">
+
+    <RadioGroup
+        android:id="@+id/rg_themes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="8dp">
+            <RadioButton
+                android:id="@+id/rb_orange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Warmer Orange"
+                android:textColor="@color/white"
+                android:buttonTint="?attr/colorPrimary"
+                android:clickable="false" />
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/shape_color_preview"
+                android:backgroundTint="@color/nothing_orange" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="8dp">
+            <RadioButton
+                android:id="@+id/rb_red"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Nothing Red"
+                android:textColor="@color/white"
+                android:buttonTint="?attr/colorPrimary"
+                android:clickable="false" />
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/shape_color_preview"
+                android:backgroundTint="@color/theme_nothing_red" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="8dp">
+            <RadioButton
+                android:id="@+id/rb_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ethereal Blue"
+                android:textColor="@color/white"
+                android:buttonTint="?attr/colorPrimary"
+                android:clickable="false" />
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/shape_color_preview"
+                android:backgroundTint="@color/theme_ethereal_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="8dp">
+            <RadioButton
+                android:id="@+id/rb_green"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Forest Green"
+                android:textColor="@color/white"
+                android:buttonTint="?attr/colorPrimary"
+                android:clickable="false" />
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/shape_color_preview"
+                android:backgroundTint="@color/theme_contrast_green" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="8dp">
+            <RadioButton
+                android:id="@+id/rb_grey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Balanced Grey"
+                android:textColor="@color/white"
+                android:buttonTint="?attr/colorPrimary"
+                android:clickable="false" />
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/shape_color_preview"
+                android:backgroundTint="@color/theme_balanced_grey" />
+        </LinearLayout>
+
+    </RadioGroup>
+</LinearLayout>

@@ -17,6 +17,12 @@ class GiveTakeWidget : AppWidgetProvider() {
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val views = RemoteViews(context.packageName, R.layout.give_take_widget)
 
+        val theme = ThemeStorage.getTheme(context)
+        val colorRes = ThemeStorage.getThemeColorRes(theme)
+        val color = context.getColor(colorRes)
+        views.setInt(R.id.btn_widget_give, "setBackgroundColor", color)
+        views.setInt(R.id.btn_widget_take, "setBackgroundColor", color)
+
         // GIVE button intent
         val giveIntent = Intent(context, GiveTakeActivity::class.java).apply {
             putExtra("EXTRA_TYPE", "GIVE")

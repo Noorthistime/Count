@@ -17,6 +17,10 @@ class AddExpenseWidget : AppWidgetProvider() {
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val views = RemoteViews(context.packageName, R.layout.add_expense_widget)
 
+        val theme = ThemeStorage.getTheme(context)
+        val colorRes = ThemeStorage.getThemeColorRes(theme)
+        views.setInt(R.id.btn_widget_add_expense, "setBackgroundColor", context.getColor(colorRes))
+
         val intent = Intent(context, QuickAddActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }

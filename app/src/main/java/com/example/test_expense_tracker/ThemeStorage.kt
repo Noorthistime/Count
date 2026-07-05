@@ -33,6 +33,16 @@ object ThemeStorage {
         }
     }
 
+    fun getThemeColorRes(theme: String): Int {
+        return when (theme) {
+            THEME_RED -> R.color.theme_nothing_red
+            THEME_BLUE -> R.color.theme_ethereal_blue
+            THEME_GREEN -> R.color.theme_contrast_green
+            THEME_GREY -> R.color.theme_balanced_grey
+            else -> R.color.nothing_orange
+        }
+    }
+
     fun getColorPrimary(context: Context): Int {
         val typedValue = android.util.TypedValue()
         context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)

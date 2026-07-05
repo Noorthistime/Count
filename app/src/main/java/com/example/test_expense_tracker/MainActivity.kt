@@ -234,24 +234,76 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showThemeSelectionDialog() {
-        val themes = arrayOf("Warmer Orange", "Nothing Red", "Ethereal Blue", "Forest Green", "Balanced Grey")
-        val themeKeys = arrayOf(ThemeStorage.THEME_ORANGE, ThemeStorage.THEME_RED, ThemeStorage.THEME_BLUE, ThemeStorage.THEME_GREEN, ThemeStorage.THEME_GREY)
+        val dialogBinding = com.example.test_expense_tracker.databinding.DialogThemeSelectionBinding.inflate(LayoutInflater.from(this))
         
         val currentTheme = ThemeStorage.getTheme(this)
-        val checkedItem = themeKeys.indexOf(currentTheme)
+        when (currentTheme) {
+            ThemeStorage.THEME_ORANGE -> dialogBinding.rbOrange.isChecked = true
+            ThemeStorage.THEME_RED -> dialogBinding.rbRed.isChecked = true
+            ThemeStorage.THEME_BLUE -> dialogBinding.rbBlue.isChecked = true
+            ThemeStorage.THEME_GREEN -> dialogBinding.rbGreen.isChecked = true
+            ThemeStorage.THEME_GREY -> dialogBinding.rbGrey.isChecked = true
+        }
 
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this)
             .setTitle("Change the Accent of App")
-            .setSingleChoiceItems(themes, checkedItem) { dialog, which ->
-                val selectedTheme = themeKeys[which]
-                if (selectedTheme != currentTheme) {
-                    ThemeStorage.saveTheme(this, selectedTheme)
-                    recreate()
-                }
-                dialog.dismiss()
-            }
+            .setView(dialogBinding.root)
             .setNegativeButton("Cancel", null)
-            .show()
+            .create()
+
+        val themeMap = mapOf(
+            dialogBinding.rbOrange to ThemeStorage.THEME_ORANGE,
+            dialogBinding.rbRed to ThemeStorage.THEME_RED,
+            dialogBinding.rbBlue to ThemeStorage.THEME_BLUE,
+            dialogBinding.rbGreen to ThemeStorage.THEME_GREEN,
+            dialogBinding.rbGrey to ThemeStorage.THEME_GREY
+        )
+
+        fun updateTheme(selectedRb: android.widget.RadioButton) {
+            val selectedTheme = themeMap[selectedRb] ?: return
+            if (selectedTheme != currentTheme) {
+                ThemeStorage.saveTheme(this, selectedTheme)
+                updateWidgets()
+                recreate()
+            }
+            dialog.dismiss()
+        }
+
+        themeMap.keys.forEach { rb ->
+            rb.setOnClickListener { updateTheme(rb) }
+            (rb.parent as android.view.View).setOnClickListener { 
+                rb.isChecked = true
+                updateTheme(rb)
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun updateWidgets() {
+        val appWidgetManager = android.appwidget.AppWidgetManager.getInstance(this)
+        
+        val addExpenseIds = appWidgetManager.getAppWidgetIds(
+            android.content.ComponentName(this, AddExpenseWidget::class.java)
+        )
+        if (addExpenseIds.isNotEmpty()) {
+            val intent = android.content.Intent(this, AddExpenseWidget::class.java).apply {
+                action = android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                putExtra(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_IDS, addExpenseIds)
+            }
+            sendBroadcast(intent)
+        }
+
+        val giveTakeIds = appWidgetManager.getAppWidgetIds(
+            android.content.ComponentName(this, GiveTakeWidget::class.java)
+        )
+        if (giveTakeIds.isNotEmpty()) {
+            val intent = android.content.Intent(this, GiveTakeWidget::class.java).apply {
+                action = android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                putExtra(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_IDS, giveTakeIds)
+            }
+            sendBroadcast(intent)
+        }
     }
 }
 
