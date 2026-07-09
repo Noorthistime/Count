@@ -6,10 +6,11 @@
     android:padding="24dp"
     android:background="@color/nothing_grey_dark">
 
-    <RadioGroup
-        android:id="@+id/rg_themes"
+    <LinearLayout
+        android:id="@+id/theme_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +28,7 @@
                 android:text="Warmer Orange"
                 android:textColor="@color/white"
                 android:buttonTint="?attr/colorPrimary"
-                android:clickable="false" />
+                android:clickable="true" />
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -51,7 +52,7 @@
                 android:text="Nothing Red"
                 android:textColor="@color/white"
                 android:buttonTint="?attr/colorPrimary"
-                android:clickable="false" />
+                android:clickable="true" />
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -75,7 +76,7 @@
                 android:text="Ethereal Blue"
                 android:textColor="@color/white"
                 android:buttonTint="?attr/colorPrimary"
-                android:clickable="false" />
+                android:clickable="true" />
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -99,7 +100,7 @@
                 android:text="Forest Green"
                 android:textColor="@color/white"
                 android:buttonTint="?attr/colorPrimary"
-                android:clickable="false" />
+                android:clickable="true" />
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -123,7 +124,7 @@
                 android:text="Balanced Grey"
                 android:textColor="@color/white"
                 android:buttonTint="?attr/colorPrimary"
-                android:clickable="false" />
+                android:clickable="true" />
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -131,5 +132,5 @@
                 android:backgroundTint="@color/theme_balanced_grey" />
         </LinearLayout>
 
-    </RadioGroup>
+    </LinearLayout>
 </LinearLayout>

@@ -262,17 +262,24 @@ class MainActivity : AppCompatActivity() {
         fun updateTheme(selectedRb: android.widget.RadioButton) {
             val selectedTheme = themeMap[selectedRb] ?: return
             if (selectedTheme != currentTheme) {
+                // Manually handle selection visual state
+                themeMap.keys.forEach { it.isChecked = it == selectedRb }
+                
                 ThemeStorage.saveTheme(this, selectedTheme)
                 updateWidgets()
-                recreate()
+                
+                // Small delay to let user see selection before recreate
+                binding.root.postDelayed({
+                    recreate()
+                }, 100)
             }
             dialog.dismiss()
         }
 
         themeMap.keys.forEach { rb ->
             rb.setOnClickListener { updateTheme(rb) }
-            (rb.parent as android.view.View).setOnClickListener { 
-                rb.isChecked = true
+            val row = rb.parent as android.view.View
+            row.setOnClickListener {
                 updateTheme(rb)
             }
         }

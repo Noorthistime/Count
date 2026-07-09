@@ -15,7 +15,7 @@ object ThemeStorage {
 
     fun saveTheme(context: Context, theme: String) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit().putString(KEY_THEME, theme).apply()
+        prefs.edit().putString(KEY_THEME, theme).commit()
     }
 
     fun getTheme(context: Context): String {
